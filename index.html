@@ -1,30 +1,504 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+
+    <!-- Mobile-specific optimizations -->
+    <meta
+      name="mobile-web-app-capable"
+      content="yes" />
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="default" />
+    <meta
+      name="theme-color"
+      content="#2196F3" />
+
+    <!-- SEO Meta Tags -->
+    <title>Gas Price Finder - Trova i Distributori di Benzina più Economici in Italia</title>
+    <meta
+      name="description"
+      content="Scopri i prezzi del carburante più convenienti vicino a te con Gas Price Finder. Risparmia su benzina, diesel e GPL in tempo reale in tutta Italia." />
+    <meta
+      name="keywords"
+      content="prezzi benzina, distributori economici, carburante conveniente, risparmio carburante, prezzi diesel, GPL, stazioni servizio Italia" />
+    <meta
+      name="author"
+      content="Gas Price Finder" />
+    <meta
+      name="robots"
+      content="index, follow" />
+
+    <!-- Open Graph Meta Tags per Social Media -->
+    <meta
+      property="og:title"
+      content="Gas Price Finder - Trova i Distributori più Economici" />
+    <meta
+      property="og:description"
+      content="Risparmia sul carburante trovando i distributori più economici vicino a te. Prezzi in tempo reale in tutta Italia." />
+    <meta
+      property="og:type"
+      content="website" />
+    <meta
+      property="og:url"
+      content="https://gaspricefinder.it" />
+    <meta
+      property="og:image"
+      content="https://gaspricefinder.it/og-image.jpg" />
+    <meta
+      property="og:locale"
+      content="it_IT" />
+    <meta
+      property="og:site_name"
+      content="Gas Price Finder" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta
+      name="twitter:card"
+      content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Gas Price Finder - Trova i Distributori più Economici" />
+    <meta
+      name="twitter:description"
+      content="Risparmia sul carburante trovando i distributori più economici vicino a te." />
+    <meta
+      name="twitter:image"
+      content="https://gaspricefinder.it/twitter-image.jpg" />
+
+    <!-- Canonical URL -->
+    <link
+      rel="canonical"
+      href="https://gaspricefinder.it" />
+
+    <!-- Structured Data Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Gas Price Finder",
+        "description": "App per trovare i distributori di carburante più economici in Italia",
+        "url": "https://gaspricefinder.it",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "iOS, Android",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.5",
+          "ratingCount": "1250"
+        }
+      }
+    </script>
+
+    <!-- Preconnect per migliorare le performance -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+
+    <!-- Font ottimizzato -->
     <link
       href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700&display=swap"
       rel="stylesheet" />
+
+    <!-- CSS -->
     <link
       rel="stylesheet"
       href="./style.css" />
+
+    <!-- JavaScript per rilevamento OS -->
+    <script>
+      // Rilevamento sistema operativo
+      function detectOS() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        // Controllo per iOS
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          return "ios";
+        }
+
+        // Controllo per Android
+        if (/android/i.test(userAgent)) {
+          return "android";
+        }
+
+        // Controllo per Windows Phone
+        if (/windows phone/i.test(userAgent)) {
+          return "windows";
+        }
+
+        // Controllo per Mac
+        if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent)) {
+          return "mac";
+        }
+
+        // Controllo per Windows
+        if (/Win32|Win64|Windows|WinCE/.test(userAgent)) {
+          return "windows";
+        }
+
+        // Controllo per Linux
+        if (/Linux/.test(userAgent)) {
+          return "linux";
+        }
+
+        return "unknown";
+      }
+
+      // Applicazione stili basati su OS
+      function applyOSStyles() {
+        const os = detectOS();
+
+        // Aspetta che il DOM sia caricato
+        document.addEventListener("DOMContentLoaded", function () {
+          const appStoreBtn = document.querySelector('.btn-store[href*="apps.apple.com"]');
+          const playStoreBtn = document.querySelector('.btn-store[href*="play.google.com"]');
+
+          if (appStoreBtn && playStoreBtn) {
+            // Rimuovi eventuali classi esistenti
+            appStoreBtn.classList.remove("btn-recommended", "btn-secondary-option");
+            playStoreBtn.classList.remove("btn-recommended", "btn-secondary-option");
+
+            // Applica stili basati su OS
+            if (os === "ios" || os === "mac") {
+              appStoreBtn.classList.add("btn-recommended");
+              playStoreBtn.classList.add("btn-secondary-option");
+
+              // Aggiungi messaggio specifico per Mac
+              if (os === "mac") {
+                appStoreBtn.setAttribute("data-message", "Perfetto per il tuo Mac");
+              } else {
+                appStoreBtn.setAttribute("data-message", "Raccomandato per te");
+              }
+            } else if (os === "android" || os === "linux") {
+              playStoreBtn.classList.add("btn-recommended");
+              appStoreBtn.classList.add("btn-secondary-option");
+              playStoreBtn.setAttribute("data-message", "Raccomandato per te");
+            } else if (os === "windows") {
+              // Per Windows, mostra entrambi senza preferenza ma con messaggio
+              appStoreBtn.setAttribute("data-message", "Disponibile anche per iPhone");
+              playStoreBtn.setAttribute("data-message", "Disponibile anche per Android");
+            } else {
+              // Fallback per OS sconosciuti
+              appStoreBtn.setAttribute("data-message", "Scarica per iOS");
+              playStoreBtn.setAttribute("data-message", "Scarica per Android");
+            }
+
+            // Debug info (rimovibile in produzione)
+            console.log("OS rilevato:", os);
+          }
+        });
+      }
+
+      // Esegui rilevamento
+      applyOSStyles();
+    </script>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="/favicon.ico"
+      sizes="any" />
+    <link
+      rel="icon"
+      href="/favicon.svg"
+      type="image/svg+xml" />
+    <link
+      rel="apple-touch-icon"
+      href="/apple-touch-icon.png" />
+    <link
+      rel="manifest"
+      href="/manifest.json" />
   </head>
   <body>
-    <section>
-      <h1>Risparmia sul tuo rifornimento</h1>
-      <p>
-        Con gas price finder scegli il carburante da monitorare e inizia subito a risparmiare sul
-        tuo prossimo rifornmiento
-      </p>
-      <button
-        id="btn"
-        type="button">
-        Scarica ora
-      </button>
-    </section>
+    <!-- Skip link per accessibilità -->
+    <a
+      href="#main-content"
+      class="skip-link"
+      >Vai al contenuto principale</a
+    >
+
+    <header role="banner">
+      <nav
+        role="navigation"
+        aria-label="Navigazione principale">
+        <div class="nav-container">
+          <div class="logo">
+            <h1>
+              <a
+                href="/"
+                aria-label="Gas Price Finder - Pagina iniziale"
+                >Gas Price Finder</a
+              >
+            </h1>
+          </div>
+          <ul role="menubar">
+            <li role="none">
+              <a
+                href="#home"
+                role="menuitem"
+                >Home</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="#features"
+                role="menuitem"
+                >Funzionalità</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="#contact"
+                role="menuitem"
+                >Contatti</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main
+      id="main-content"
+      role="main">
+      <!-- Hero Section -->
+      <section
+        id="home"
+        class="hero"
+        role="banner">
+        <div class="hero-content">
+          <h1>Risparmia sul tuo Rifornimento con Gas Price Finder</h1>
+          <h2>
+            Trova i distributori di carburante più economici vicino a te. Confronta prezzi di
+            benzina, diesel, GPL e altri carburanti in tempo reale in tutta Italia.
+          </h2>
+          <div class="cta-buttons">
+            <a
+              href="https://apps.apple.com/it/app/gas-price-finder"
+              class="btn btn-store"
+              aria-label="Scarica Gas Price Finder dall'App Store"
+              rel="noopener">
+              <img
+                src="./Download_on_the_App_Store_Badge_IT_RGB_blk_100317.svg"
+                alt="Scarica dall'App Store"
+                width="200"
+                height="60" />
+            </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.gaspricefinder"
+              class="btn btn-store"
+              aria-label="Scarica Gas Price Finder da Google Play"
+              rel="noopener">
+              <img
+                src="./GetItOnGooglePlay_Badge_Web_color_Italian.png"
+                alt="Scarica da Google Play"
+                width="200"
+                height="60" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Description Section -->
+      <section
+        class="description"
+        role="region"
+        aria-labelledby="description-title">
+        <div class="container">
+          <h2 id="description-title">Come Funziona Gas Price Finder</h2>
+          <p>
+            Con Gas Price Finder scegli il tipo di carburante da monitorare e inizia subito a
+            risparmiare sul tuo prossimo rifornimento. La nostra app ti mostra i prezzi più
+            aggiornati dei distributori vicino a te.
+          </p>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section
+        id="features"
+        class="features"
+        role="region"
+        aria-labelledby="features-title">
+        <div class="container">
+          <h2 id="features-title">Gas Price Finder - Funzionalità</h2>
+          <p class="features-subtitle">
+            Scopri i distributori più economici vicino a te. In tempo reale. Ovunque in Italia.
+          </p>
+
+          <div class="features-grid">
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                aria-hidden="true">
+                🗺️
+              </div>
+              <h3>Mappa Interattiva</h3>
+              <p>
+                Visualizza tutti i distributori sulla mappa con prezzi aggiornati in tempo reale
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                aria-hidden="true">
+                💰
+              </div>
+              <h3>Confronto Prezzi</h3>
+              <p>
+                Confronta i prezzi di benzina, diesel, GPL e metano per trovare l'opzione più
+                conveniente
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                aria-hidden="true">
+                📍
+              </div>
+              <h3>Ricerca per Posizione</h3>
+              <p>
+                Trova i distributori più vicini alla tua posizione o cerca in una zona specifica
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                aria-hidden="true">
+                ⭐
+              </div>
+              <h3>Recensioni Utenti</h3>
+              <p>
+                Leggi le recensioni degli altri utenti sui distributori e condividi la tua
+                esperienza
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                aria-hidden="true">
+                🔔
+              </div>
+              <h3>Notifiche Prezzi</h3>
+              <p>Ricevi notifiche quando i prezzi scendono nei tuoi distributori preferiti</p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                aria-hidden="true">
+                📊
+              </div>
+              <h3>Statistiche Risparmio</h3>
+              <p>Tieni traccia di quanto risparmi utilizzando l'app per i tuoi rifornimenti</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Business Section -->
+      <section
+        class="business-section"
+        role="region"
+        aria-labelledby="business-title">
+        <div class="container">
+          <h2 id="business-title">Sei un Gestore di Distributore?</h2>
+          <p>
+            Con Gas Price Finder puoi aumentare la visibilità della tua stazione di servizio e
+            attrarre più clienti interessati ai prezzi competitivi.
+          </p>
+          <div class="business-cta">
+            <a
+              href="mailto:business@gaspricefinder.it"
+              class="btn btn-secondary"
+              aria-label="Contatta il team business di Gas Price Finder">
+              Contattaci per Partnership
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Floating CTA -->
+    <div
+      class="floating-button"
+      role="complementary"
+      aria-label="Download rapido app">
+      <a
+        href="https://gaspricefinder.it/download"
+        class="btn btn-floating"
+        aria-label="Scarica l'app Gas Price Finder">
+        Scarica l'App Gratis
+      </a>
+    </div>
+
+    <footer role="contentinfo">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-info">
+            <h3>Gas Price Finder</h3>
+            <p>
+              L'app numero 1 in Italia per trovare i distributori di carburante più convenienti.
+            </p>
+          </div>
+
+          <div class="footer-links">
+            <h4>Link Utili</h4>
+            <ul>
+              <li><a href="/privacy-policy">Privacy Policy</a></li>
+              <li><a href="/terms-of-service">Termini di Servizio</a></li>
+              <li><a href="/cookie-policy">Cookie Policy</a></li>
+              <li><a href="/contatti">Contatti</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-social">
+            <h4>Seguici</h4>
+            <div class="social-links">
+              <a
+                href="https://facebook.com/gaspricefinder"
+                aria-label="Seguici su Facebook"
+                rel="noopener"
+                >Facebook</a
+              >
+              <a
+                href="https://instagram.com/gaspricefinder"
+                aria-label="Seguici su Instagram"
+                rel="noopener"
+                >Instagram</a
+              >
+              <a
+                href="https://twitter.com/gaspricefinder"
+                aria-label="Seguici su Twitter"
+                rel="noopener"
+                >Twitter</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2024 Gas Price Finder. Tutti i diritti riservati.</p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
