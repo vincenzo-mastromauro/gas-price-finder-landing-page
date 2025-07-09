@@ -275,7 +275,7 @@ header.scrolled {
   font-size: 2.8rem; /* Aumentato drammaticamente per maggiore impatto */
   font-weight: 700;
   color: var(--text-white);
-  margin-bottom: 20px;
+  margin: 40px 0;
   line-height: 1.1; /* Più compatto per impatto visivo */
   letter-spacing: -0.02em; /* Leggera compressione per modernità */
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Ombra per leggibilità */
@@ -301,17 +301,17 @@ header.scrolled {
   margin-right: auto;
   opacity: 0.9; /* Leggera trasparenza per gerarchia */
 }
-
+/* 
 .cta-headline {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--accent-color);
-  margin-bottom: 24px; /* Spazio ottimizzato */
+  margin-bottom: 24px; 
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: center;
   animation: fadeInUp 0.8s ease-out 0.5s both;
-}
+} */
 
 .cta-buttons {
   display: flex;
@@ -319,7 +319,7 @@ header.scrolled {
   gap: 16px; /* Ridotto per migliore gerarchia visiva */
   flex-direction: column; /* Mobile first: stack verticalmente */
   align-items: center;
-  margin-top: 32px; /* Aumentato per migliore equilibrio visivo */
+  margin-top: 102px; /* Aumentato per migliore equilibrio visivo */
   max-width: 480px; /* Limita larghezza per migliore controllo */
   margin-left: auto;
   margin-right: auto;
