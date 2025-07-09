@@ -18,7 +18,22 @@
       content="default" />
     <meta
       name="theme-color"
-      content="#2196F3" />
+      content="#C1E33C" />
+
+    <!-- Content Security Policy per sicurezza -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';" />
+
+    <!-- Referrer Policy per privacy -->
+    <meta
+      name="referrer"
+      content="strict-origin-when-cross-origin" />
+
+    <!-- Permissions Policy -->
+    <meta
+      http-equiv="Permissions-Policy"
+      content="geolocation=(), microphone=(), camera=()" />
 
     <!-- SEO Meta Tags -->
     <title>Gas Price Finder - Trova i Distributori di Benzina più Economici in Italia</title>
@@ -109,7 +124,7 @@
       href="https://fonts.gstatic.com"
       crossorigin />
 
-    <!-- Font ottimizzato -->
+    <!-- Font ottimizzato con display swap per performance -->
     <link
       href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700&display=swap"
       rel="stylesheet" />
@@ -196,15 +211,106 @@
               appStoreBtn.setAttribute("data-message", "Scarica per iOS");
               playStoreBtn.setAttribute("data-message", "Scarica per Android");
             }
-
-            // Debug info (rimovibile in produzione)
-            console.log("OS rilevato:", os);
           }
         });
       }
 
       // Esegui rilevamento
       applyOSStyles();
+
+      // Gestione floating button basata sullo scroll
+      function initFloatingButton() {
+        const floatingButton = document.querySelector(".floating-button");
+        const heroSection = document.querySelector(".hero");
+
+        if (!floatingButton || !heroSection) return;
+
+        // Throttle function per ottimizzare le performance
+        function throttle(func, limit) {
+          let inThrottle;
+          return function () {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+              func.apply(context, args);
+              inThrottle = true;
+              setTimeout(() => (inThrottle = false), limit);
+            }
+          };
+        }
+
+        // Funzione per controllare la visibilità del button
+        function checkScrollPosition() {
+          const heroHeight = heroSection.offsetHeight;
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+          if (scrollTop > heroHeight * 0.8) {
+            // Mostra quando si è scrollato l'80% della hero
+            floatingButton.classList.add("show");
+          } else {
+            floatingButton.classList.remove("show");
+          }
+        }
+
+        // Listener per lo scroll con throttling
+        const throttledScroll = throttle(checkScrollPosition, 100);
+        window.addEventListener("scroll", throttledScroll);
+
+        // Check iniziale
+        checkScrollPosition();
+      }
+
+      // Inizializza quando il DOM è caricato
+      document.addEventListener("DOMContentLoaded", initFloatingButton);
+
+      // Header scroll effect
+      function initHeaderScroll() {
+        const header = document.querySelector("header");
+
+        if (header) {
+          window.addEventListener("scroll", function () {
+            if (window.scrollY > 50) {
+              header.classList.add("scrolled");
+            } else {
+              header.classList.remove("scrolled");
+            }
+          });
+        }
+      }
+
+      // Active navigation links
+      function initActiveNav() {
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        const sections = document.querySelectorAll("section[id]");
+
+        function updateActiveLink() {
+          let current = "";
+
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+              current = section.getAttribute("id");
+            }
+          });
+
+          navLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === `#${current}`) {
+              link.classList.add("active");
+            }
+          });
+        }
+
+        window.addEventListener("scroll", updateActiveLink);
+        updateActiveLink(); // Check on load
+      }
+
+      // Inizializza funzioni header
+      document.addEventListener("DOMContentLoaded", function () {
+        initHeaderScroll();
+        initActiveNav();
+      });
     </script>
 
     <!-- Favicon -->
@@ -237,37 +343,29 @@
         aria-label="Navigazione principale">
         <div class="nav-container">
           <div class="logo">
-            <h1>
-              <a
-                href="/"
-                aria-label="Gas Price Finder - Pagina iniziale"
-                >Gas Price Finder</a
-              >
-            </h1>
+            <a
+              href="/"
+              aria-label="Gas Price Finder - Pagina iniziale"
+              >Gas Price Finder</a
+            >
           </div>
-          <ul role="menubar">
-            <li role="none">
-              <a
-                href="#home"
-                role="menuitem"
-                >Home</a
-              >
-            </li>
-            <li role="none">
-              <a
-                href="#features"
-                role="menuitem"
-                >Funzionalità</a
-              >
-            </li>
-            <li role="none">
-              <a
-                href="#contact"
-                role="menuitem"
-                >Contatti</a
-              >
-            </li>
-          </ul>
+          <div class="nav-menu">
+            <a
+              href="#home"
+              class="nav-link active"
+              >Home</a
+            >
+            <a
+              href="#features"
+              class="nav-link"
+              >Funzionalità</a
+            >
+            <a
+              href="#business"
+              class="nav-link"
+              >Business</a
+            >
+          </div>
         </div>
       </nav>
     </header>
@@ -281,33 +379,42 @@
         class="hero"
         role="banner">
         <div class="hero-content">
-          <h1>Risparmia sul tuo Rifornimento con Gas Price Finder</h1>
+          <h1>
+            <span class="highlight">Risparmia</span> sul tuo Rifornimento con Gas Price Finder
+          </h1>
           <h2>
             Trova i distributori di carburante più economici vicino a te. Confronta prezzi di
             benzina, diesel, GPL e altri carburanti in tempo reale in tutta Italia.
           </h2>
+          <div class="cta-headline">📱 Scarica Gratis e Inizia a Risparmiare Subito</div>
           <div class="cta-buttons">
             <a
               href="https://apps.apple.com/it/app/gas-price-finder"
               class="btn btn-store"
               aria-label="Scarica Gas Price Finder dall'App Store"
-              rel="noopener">
+              rel="noopener noreferrer"
+              target="_blank">
               <img
                 src="./Download_on_the_App_Store_Badge_IT_RGB_blk_100317.svg"
                 alt="Scarica dall'App Store"
                 width="200"
-                height="60" />
+                height="60"
+                loading="eager"
+                decoding="async" />
             </a>
             <a
               href="https://play.google.com/store/apps/details?id=com.gaspricefinder"
               class="btn btn-store"
               aria-label="Scarica Gas Price Finder da Google Play"
-              rel="noopener">
+              rel="noopener noreferrer"
+              target="_blank">
               <img
                 src="./GetItOnGooglePlay_Badge_Web_color_Italian.png"
                 alt="Scarica da Google Play"
                 width="200"
-                height="60" />
+                height="60"
+                loading="eager"
+                decoding="async" />
             </a>
           </div>
         </div>
@@ -345,24 +452,12 @@
               <div
                 class="feature-icon"
                 aria-hidden="true">
-                🗺️
+                ⏱️
               </div>
-              <h3>Mappa Interattiva</h3>
+              <h3>Prezzi Aggiornati</h3>
               <p>
-                Visualizza tutti i distributori sulla mappa con prezzi aggiornati in tempo reale
-              </p>
-            </article>
-
-            <article class="feature-card">
-              <div
-                class="feature-icon"
-                aria-hidden="true">
-                💰
-              </div>
-              <h3>Confronto Prezzi</h3>
-              <p>
-                Confronta i prezzi di benzina, diesel, GPL e metano per trovare l'opzione più
-                conveniente
+                I prezzi vengono aggiornati utilizzando i dati forniti dal MIMIT (Ministero delle
+                Imprese e del Made in Italy)
               </p>
             </article>
 
@@ -372,9 +467,10 @@
                 aria-hidden="true">
                 📍
               </div>
-              <h3>Ricerca per Posizione</h3>
+              <h3>Posizione</h3>
               <p>
-                Trova i distributori più vicini alla tua posizione o cerca in una zona specifica
+                Grazie alla posizione in tempo reale, potrai ottenere indicazioni su come arrivare
+                al distributore più conveniente
               </p>
             </article>
 
@@ -382,12 +478,12 @@
               <div
                 class="feature-icon"
                 aria-hidden="true">
-                ⭐
+                💰
               </div>
-              <h3>Recensioni Utenti</h3>
+              <h3>Risparmio</h3>
               <p>
-                Leggi le recensioni degli altri utenti sui distributori e condividi la tua
-                esperienza
+                Dopo aver selezionato il carburante ed individuato il distributore meno caro, non ti
+                resta che risparmiare
               </p>
             </article>
 
@@ -395,13 +491,31 @@
               <div
                 class="feature-icon"
                 aria-hidden="true">
-                🔔
+                ⛽️
               </div>
-              <h3>Notifiche Prezzi</h3>
-              <p>Ricevi notifiche quando i prezzi scendono nei tuoi distributori preferiti</p>
+              <h3>Tanti Carburanti</h3>
+              <p>
+                Scegli tra: Benzina, Diesel, GPL, GNL, L-GNC e Metano. In futuro anche le colonnine
+                per i mezzi elettrici
+              </p>
             </article>
 
             <article class="feature-card">
+              <div
+                class="feature-icon"
+                aria-hidden="true">
+                🗺️
+              </div>
+              <h3>Personalizza</h3>
+              <p>
+                Personalizza l'app per incontrare le tue necessità. Scegli la lingua, il tipo di
+                mappa, la valuta, light o dark mode...
+              </p>
+            </article>
+
+            <article
+              class="feature-card coming-soon"
+              aria-label="Feature in arrivo prossimamente">
               <div
                 class="feature-icon"
                 aria-hidden="true">
@@ -416,6 +530,7 @@
 
       <!-- Business Section -->
       <section
+        id="business"
         class="business-section"
         role="region"
         aria-labelledby="business-title">
@@ -429,7 +544,8 @@
             <a
               href="mailto:business@gaspricefinder.it"
               class="btn btn-secondary"
-              aria-label="Contatta il team business di Gas Price Finder">
+              aria-label="Contatta il team business di Gas Price Finder"
+              rel="noopener">
               Contattaci per Partnership
             </a>
           </div>
@@ -496,7 +612,7 @@
         </div>
 
         <div class="footer-bottom">
-          <p>&copy; 2024 Gas Price Finder. Tutti i diritti riservati.</p>
+          <p>&copy; 202 Gas Price Finder. Tutti i diritti riservati.</p>
         </div>
       </div>
     </footer>

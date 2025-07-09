@@ -23,6 +23,20 @@ body {
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
   font-family: "Schibsted Grotesk", sans-serif;
+  /* Dark gradient background per tutta la landing page */
+  background: linear-gradient(
+    135deg,
+    #171717 0%,
+    #1c1c1c 25%,
+    #1e1e1e 50%,
+    #202020 75%,
+    #232323 100%
+  );
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--text-color); /* Grigio chiaro brand */
+  min-height: 100vh;
 }
 
 /* 6. Improve media defaults */
@@ -86,72 +100,107 @@ h6 {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: #000;
-  color: #fff;
+  background: var(--accent-color);
+  color: #1a1a1a; /* Testo scuro per contrasto */
   padding: 8px;
   text-decoration: none;
   z-index: 1000;
+  font-weight: 600;
 }
 
 .skip-link:focus {
   top: 6px;
 }
 
-/* Header e Navigation - Mobile First */
+/* Variables */
+:root {
+  --background-gradient: linear-gradient(
+    135deg,
+    #171717 0%,
+    #1c1c1c 25%,
+    #1e1e1e 50%,
+    #202020 75%,
+    #232323 100%
+  );
+
+  --accent-color: #c1e33c;
+  --text-color: #d9d9d9;
+  --text-white: #ffffff;
+}
+
+/* Header e Navigation - Design Ultra-Minimal */
 header {
-  background: rgba(255, 255, 255, 0.95); /* Più opaco per mobile */
-  backdrop-filter: blur(10px);
+  background: rgba(23, 23, 23, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Effetto scroll per header */
+header.scrolled {
+  background: rgba(23, 23, 23, 0.95);
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px; /* Ridotto per mobile */
+  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60px; /* Ridotto per mobile */
-  flex-wrap: wrap; /* Wrap su mobile */
+  height: 60px;
 }
 
-.logo h1 {
-  font-size: 1.3rem; /* Ridotto per mobile */
+.logo {
+  font-size: 1.3rem;
   font-weight: 700;
-  color: #1976d2;
-  margin: 0;
+  color: var(--accent-color);
+  letter-spacing: -0.02em;
 }
 
 .logo a {
   text-decoration: none;
   color: inherit;
+  transition: opacity 0.2s ease;
 }
 
-nav ul {
+.logo a:hover {
+  opacity: 0.8;
+}
+
+/* Navigation ultra-minimal */
+.nav-menu {
   display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 20px; /* Ridotto per mobile */
-  flex-wrap: wrap; /* Wrap su mobile */
+  gap: 24px;
+  align-items: center;
 }
 
-nav a {
+.nav-link {
   text-decoration: none;
-  color: #333;
+  color: var(--text-color);
   font-weight: 500;
-  transition: color 0.3s ease;
-  padding: 8px 12px; /* Più area di touch su mobile */
-  font-size: 0.9rem; /* Ridotto per mobile */
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-nav a:hover {
-  color: #1976d2;
+.nav-link:hover {
+  color: var(--accent-color);
+  background: rgba(193, 227, 60, 0.1);
+}
+
+.nav-link.active {
+  color: var(--accent-color);
+  background: rgba(193, 227, 60, 0.15);
 }
 
 /* Container generale - Mobile First */
@@ -161,45 +210,131 @@ nav a:hover {
   padding: 0 16px; /* Ridotto per mobile */
 }
 
-/* Hero Section - Ottimizzato per mobile */
+/* Hero Section - Ottimizzato per massimo impatto visivo */
 .hero {
-  padding: 100px 0 60px; /* Ridotto per mobile */
+  padding: 72px 0 40px; /* Padding coordinato con header da 60px */
   text-align: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  min-height: 100vh; /* Full screen su mobile */
+  background: transparent; /* Lascia trasparire il gradient del body */
+  min-height: 100vh; /* Full screen */
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay gradient per aumentare il contrasto del testo */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(23, 23, 23, 0.4) 0%,
+    rgba(23, 23, 23, 0.8) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Elemento decorativo di background per la hero */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(193, 227, 60, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: floatBackground 6s ease-in-out infinite;
+}
+
+@keyframes floatBackground {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 0 16px; /* Ridotto per mobile */
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .hero h1 {
-  font-size: 2.2rem; /* Ridotto per mobile come base */
+  font-size: 2.8rem; /* Aumentato drammaticamente per maggiore impatto */
   font-weight: 700;
-  color: #1976d2;
-  margin-bottom: 16px; /* Ridotto per mobile */
-  line-height: 1.2;
+  color: var(--text-white);
+  margin-bottom: 20px;
+  line-height: 1.1; /* Più compatto per impatto visivo */
+  letter-spacing: -0.02em; /* Leggera compressione per modernità */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Ombra per leggibilità */
+}
+
+/* Evidenziazione della parola chiave "Risparmia" */
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent-color), #a8c132);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none; /* Rimuovi ombra per il gradient */
 }
 
 .hero h2 {
-  font-size: 1.1rem; /* Ridotto per mobile come base */
-  color: #555;
-  margin-bottom: 32px; /* Ridotto per mobile */
+  font-size: 1.25rem; /* Aumentato per migliore leggibilità */
+  color: var(--text-color);
+  margin-bottom: 40px; /* Più spazio per respirare */
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
+  max-width: 600px; /* Limita larghezza per leggibilità */
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.9; /* Leggera trasparenza per gerarchia */
+}
+
+.cta-headline {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-bottom: 24px; /* Spazio ottimizzato */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
 }
 
 .cta-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Aumentato per i badge più grandi */
+  gap: 16px; /* Ridotto per migliore gerarchia visiva */
   flex-direction: column; /* Mobile first: stack verticalmente */
   align-items: center;
-  margin-top: 8px; /* Spazio extra per i badge */
+  margin-top: 32px; /* Aumentato per migliore equilibrio visivo */
+  max-width: 480px; /* Limita larghezza per migliore controllo */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Animazione per la call-to-action */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .btn {
@@ -217,182 +352,233 @@ nav a:hover {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #2196f3, #1976d2);
-  color: white;
-  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  background: linear-gradient(135deg, var(--accent-color), #a8c132);
+  color: #1a1a1a; /* Testo scuro per contrasto con verde */
+  box-shadow: 0 4px 15px rgba(193, 227, 60, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 6px 20px rgba(193, 227, 60, 0.4);
 }
 
 .btn-secondary {
-  background: white;
-  color: #1976d2;
-  border: 2px solid #1976d2;
+  background: transparent;
+  color: var(--accent-color);
+  border: 2px solid var(--accent-color);
 }
 
 .btn-secondary:hover {
-  background: #1976d2;
-  color: white;
+  background: var(--accent-color);
+  color: #1a1a1a;
 }
 
-/* Store Badge Buttons - Stili specifici per badge ufficiali */
+/* Store Badge Buttons - Ottimizzati per gerarchia e conversione */
 .btn-store {
   background: none !important;
   border: none !important;
-  padding: 8px !important;
-  box-shadow: none !important;
-  border-radius: 12px;
-  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.3s ease;
+  padding: 12px !important;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1) !important; /* Ombra più sottile di default */
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-block;
   min-width: auto !important;
   position: relative;
+  transform: scale(1);
+  opacity: 0.9; /* Leggera trasparenza di default */
 }
 
 .btn-store:hover {
-  transform: scale(1.05);
-  background: none !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  opacity: 1;
 }
 
 .btn-store:active {
-  transform: scale(0.98);
+  transform: scale(1.02) translateY(-1px);
 }
 
 .btn-store img {
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: all 0.3s ease;
+  filter: brightness(1.02);
 }
 
-/* Badge raccomandato per l'OS dell'utente */
+/* Badge raccomandato per l'OS dell'utente - Gerarchia primaria */
 .btn-recommended {
-  transform: scale(1.08) !important;
-  box-shadow: 0 8px 30px rgba(33, 150, 243, 0.4) !important;
-  z-index: 2;
+  transform: scale(1.08) translateY(-4px) !important; /* Meno drammatico ma chiaro */
+  box-shadow: 0 8px 30px rgba(193, 227, 60, 0.4) !important;
+  z-index: 3;
   position: relative;
+  opacity: 1 !important; /* Piena opacità per il raccomandato */
 }
 
 .btn-recommended::before {
   content: attr(data-message);
   position: absolute;
-  top: -25px;
+  top: -28px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #2196f3, #1976d2);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
+  background: linear-gradient(135deg, var(--accent-color), #a8c132);
+  color: #1a1a1a;
+  padding: 5px 14px;
+  border-radius: 22px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
-  box-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
-  animation: pulseRecommended 2s ease-in-out infinite;
+  box-shadow: 0 2px 15px rgba(193, 227, 60, 0.3);
+  animation: pulseRecommended 3s ease-in-out infinite; /* Rallentato */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Fallback quando data-message non è presente */
 .btn-recommended:not([data-message])::before {
-  content: "Raccomandato per te";
+  content: "🎯 Raccomandato";
 }
 
 .btn-recommended:hover {
-  transform: scale(1.12) !important;
-  box-shadow: 0 12px 40px rgba(33, 150, 243, 0.5) !important;
+  transform: scale(1.12) translateY(-6px) !important;
+  box-shadow: 0 12px 40px rgba(193, 227, 60, 0.5) !important;
 }
 
-/* Opzione secondaria (meno prominente) */
+/* Opzione secondaria - Meno prominente con gerarchia chiara */
 .btn-secondary-option {
-  opacity: 0.8;
-  transform: scale(0.95);
+  opacity: 0.6; /* Più trasparente per gerarchia */
+  transform: scale(0.94) translateY(1px);
+  filter: grayscale(0.3) brightness(0.95); /* Effetto visivo più marcato */
 }
 
 .btn-secondary-option:hover {
-  opacity: 1;
-  transform: scale(1.02) !important;
+  opacity: 0.85;
+  transform: scale(1.02) translateY(-1px) !important;
+  filter: grayscale(0.1) brightness(1);
 }
 
-/* Animazione per il badge raccomandato */
+/* Animazione per il badge raccomandato - Più sottile e professionale */
 @keyframes pulseRecommended {
   0%,
   100% {
     transform: translateX(-50%) scale(1);
+    box-shadow: 0 2px 15px rgba(193, 227, 60, 0.3);
   }
   50% {
-    transform: translateX(-50%) scale(1.05);
+    transform: translateX(-50%) scale(1.03);
+    box-shadow: 0 4px 20px rgba(193, 227, 60, 0.4);
   }
 }
 
-/* Responsive per badge store con evidenziazione */
-@media (max-width: 767px) {
-  .btn-store {
-    padding: 4px !important;
-    margin: 8px 0;
+/* Animazioni per la hero section */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content {
+    animation: heroEntrance 1.2s ease-out;
   }
 
-  .btn-store img {
-    width: 180px;
-    height: auto;
+  .hero h1 {
+    animation: slideInFromLeft 0.8s ease-out 0.2s both;
+  }
+
+  .hero h2 {
+    animation: slideInFromLeft 0.8s ease-out 0.4s both;
+  }
+
+  .cta-headline {
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+  }
+
+  .cta-buttons {
+    animation: fadeInUp 0.8s ease-out 0.8s both;
+  }
+}
+
+@keyframes heroEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Focus states migliorati per accessibilità */
+.btn-store:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 4px;
+}
+
+.hero h1:focus-visible,
+.hero h2:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Supporto per utenti che preferiscono meno movimento */
+@media (prefers-reduced-motion: reduce) {
+  .hero-content,
+  .hero h1,
+  .hero h2,
+  .cta-buttons {
+    animation: none;
+  }
+
+  .btn-store {
+    transition: none;
+  }
+
+  .btn-store:hover {
+    transform: none;
   }
 
   .btn-recommended {
     transform: scale(1.05) !important;
-    box-shadow: 0 6px 25px rgba(33, 150, 243, 0.4) !important;
   }
 
   .btn-recommended::before {
-    top: -20px;
-    font-size: 0.7rem;
-    padding: 3px 10px;
+    animation: none;
   }
 
   .btn-recommended:hover {
     transform: scale(1.08) !important;
-  }
-
-  .btn-secondary-option {
-    transform: scale(0.92);
-  }
-
-  .btn-secondary-option:hover {
-    transform: scale(0.98) !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .btn-store img {
-    width: 200px;
-    height: auto;
-  }
-
-  .btn-recommended {
-    transform: scale(1.1) !important;
-  }
-
-  .btn-recommended:hover {
-    transform: scale(1.15) !important;
   }
 }
 
 /* Description Section - Mobile First */
 .description {
   padding: 60px 0; /* Ridotto per mobile */
-  background: white;
+  background: rgba(30, 30, 30, 0.8); /* Sfondo semi-trasparente scuro */
   text-align: center;
+  height: 50dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  backdrop-filter: blur(5px);
 }
 
 .description h2 {
   font-size: 2rem; /* Ridotto per mobile come base */
-  color: #1976d2;
+  color: var(--accent-color); /* Verde lime brand */
   margin-bottom: 24px; /* Ridotto per mobile */
 }
 
 .description p {
   font-size: 1.1rem; /* Ottimizzato per mobile */
-  color: #666;
+  color: var(--text-color); /* Grigio chiaro brand */
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
@@ -402,13 +588,14 @@ nav a:hover {
 /* Features Section - Mobile First */
 .features {
   padding: 60px 0; /* Ridotto per mobile */
-  background: #f8f9fa;
+  background: rgba(25, 25, 25, 0.9); /* Sfondo scuro semi-trasparente */
+  backdrop-filter: blur(5px);
 }
 
 .features h2 {
   text-align: center;
   font-size: 2rem; /* Ridotto per mobile come base */
-  color: #1976d2;
+  color: var(--accent-color); /* Verde lime brand */
   margin-bottom: 16px; /* Ridotto per mobile */
   padding: 0 16px; /* Padding mobile */
 }
@@ -416,7 +603,7 @@ nav a:hover {
 .features-subtitle {
   text-align: center;
   font-size: 1.1rem; /* Ottimizzato per mobile */
-  color: #666;
+  color: var(--text-color); /* Grigio chiaro brand */
   margin-bottom: 40px; /* Ridotto per mobile */
   padding: 0 16px; /* Padding mobile */
 }
@@ -430,17 +617,19 @@ nav a:hover {
 }
 
 .feature-card {
-  background: white;
+  background: rgba(40, 40, 40, 0.9); /* Sfondo scuro semi-trasparente */
   padding: 32px 24px; /* Ottimizzato per mobile */
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, border-color 0.3s ease;
   margin: 0 8px; /* Margini laterali su mobile */
+  border: 1px solid rgba(193, 227, 60, 0.4); /* Bordo blu sottile */
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
+  border-color: var(--accent-color); /* Bordo verde al hover */
 }
 
 .feature-icon {
@@ -450,28 +639,97 @@ nav a:hover {
 
 .feature-card h3 {
   font-size: 1.3rem; /* Ridotto per mobile */
-  color: #1976d2;
+  color: var(--accent-color); /* Verde lime brand */
   margin-bottom: 12px; /* Ridotto per mobile */
 }
 
 .feature-card p {
-  color: #666;
+  color: var(--text-color); /* Grigio chiaro brand */
   line-height: 1.6;
   font-size: 0.95rem; /* Ottimizzato per mobile */
+}
+
+/* Coming Soon Feature Card */
+.feature-card.coming-soon {
+  position: relative;
+  opacity: 0.7;
+  filter: blur(1px);
+  transition: all 0.3s ease;
+}
+
+.feature-card.coming-soon::before {
+  content: "Coming Soon";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, var(--accent-color), #a8c132);
+  color: #1a1a1a; /* Testo scuro per contrasto */
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(193, 227, 60, 0.3);
+  z-index: 10;
+  animation: pulseGlow 2s infinite;
+}
+
+.feature-card.coming-soon:hover {
+  opacity: 0.9;
+  filter: blur(0.5px);
+  transform: translateY(-2px); /* Ridotto rispetto al normale hover */
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 4px 15px rgba(193, 227, 60, 0.3);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 6px 25px rgba(193, 227, 60, 0.5);
+  }
+}
+
+/* Supporto per utenti che preferiscono movimento ridotto */
+@media (prefers-reduced-motion: reduce) {
+  .floating-button {
+    transition: opacity 0.3s ease;
+    transform: none !important;
+  }
+
+  .floating-button.show {
+    transform: none !important;
+  }
+
+  .btn-floating:hover {
+    transform: none;
+  }
 }
 
 /* Business Section - Mobile First */
 .business-section {
   padding: 60px 0; /* Ridotto per mobile */
-  background: #1976d2;
+  background: linear-gradient(
+    135deg,
+    rgba(193, 227, 60, 0.15),
+    rgba(168, 193, 50, 0.15)
+  ); /* Verde accent con trasparenza */
   color: white;
   text-align: center;
+  backdrop-filter: blur(5px);
+  border-top: 2px solid rgba(193, 227, 60, 0.3); /* Bordo verde sottile */
+  border-bottom: 2px solid rgba(193, 227, 60, 0.3);
 }
 
 .business-section h2 {
   font-size: 2rem; /* Ridotto per mobile come base */
   margin-bottom: 24px; /* Ridotto per mobile */
   padding: 0 16px; /* Padding mobile */
+  color: var(--text-white); /* Bianco per contrasto */
 }
 
 .business-section p {
@@ -482,6 +740,7 @@ nav a:hover {
   margin-right: auto;
   padding: 0 16px; /* Padding mobile */
   line-height: 1.6;
+  color: var(--text-color); /* Grigio chiaro brand */
 }
 
 /* Floating Button - Ottimizzato per mobile */
@@ -491,16 +750,26 @@ nav a:hover {
   right: 16px;
   z-index: 1000;
   left: 16px; /* Full width su mobile */
+  opacity: 0;
+  transform: translateY(100px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none; /* Disabilita interazioni quando nascosto */
+}
+
+.floating-button.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto; /* Riabilita interazioni quando visibile */
 }
 
 .btn-floating {
-  background: #ff4444;
-  color: white;
+  background: linear-gradient(135deg, var(--accent-color), #a8c132);
+  color: #1a1a1a; /* Testo scuro per contrasto */
   padding: 18px 24px; /* Più grande per touch mobile */
   border-radius: 50px;
   text-decoration: none;
   font-weight: 600;
-  box-shadow: 0 4px 20px rgba(255, 68, 68, 0.3);
+  box-shadow: 0 4px 20px rgba(193, 227, 60, 0.3);
   transition: all 0.3s ease;
   display: block; /* Full width su mobile */
   text-align: center;
@@ -513,14 +782,15 @@ nav a:hover {
 
 .btn-floating:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 25px rgba(255, 68, 68, 0.4);
+  box-shadow: 0 6px 25px rgba(193, 227, 60, 0.4);
 }
 
 /* Footer */
 footer {
-  background: #333;
+  background: rgba(20, 20, 20, 0.95); /* Sfondo scuro semi-trasparente */
   color: white;
   padding: 60px 0 20px;
+  backdrop-filter: blur(5px);
 }
 
 .footer-content {
@@ -531,14 +801,14 @@ footer {
 }
 
 .footer-info h3 {
-  color: #2196f3;
+  color: var(--accent-color); /* Verde lime brand */
   margin-bottom: 15px;
 }
 
 .footer-links h4,
 .footer-social h4 {
   margin-bottom: 20px;
-  color: #2196f3;
+  color: var(--accent-color); /* Verde lime brand */
 }
 
 .footer-links ul {
@@ -552,14 +822,14 @@ footer {
 
 .footer-links a,
 .social-links a {
-  color: #ccc;
+  color: var(--text-color); /* Grigio chiaro brand */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover,
 .social-links a:hover {
-  color: #2196f3;
+  color: var(--accent-color); /* Verde lime al hover */
 }
 
 .social-links {
@@ -571,7 +841,7 @@ footer {
   border-top: 1px solid #555;
   padding-top: 20px;
   text-align: center;
-  color: #ccc;
+  color: var(--text-color); /* Grigio chiaro brand */
 }
 
 /* Responsive Design - Mobile First Approach */
@@ -602,7 +872,7 @@ footer {
   }
 
   .hero {
-    padding: 120px 0 80px;
+    padding: 90px 0 50px; /* Progressione graduale */
     min-height: auto;
   }
 
@@ -611,18 +881,23 @@ footer {
   }
 
   .hero h1 {
-    font-size: 2.8rem;
-    margin-bottom: 20px;
+    font-size: 2.5rem; /* Progressione più graduale */
+    margin-bottom: 22px;
   }
 
   .hero h2 {
-    font-size: 1.25rem;
-    margin-bottom: 40px;
+    font-size: 1.15rem; /* Progressione graduale */
+    margin-bottom: 42px;
+  }
+
+  .cta-headline {
+    font-size: 1.05rem;
+    margin-bottom: 20px;
   }
 
   .cta-buttons {
     flex-direction: row;
-    gap: 24px; /* Spazio maggiore per i badge desktop */
+    gap: 28px; /* Spazio ottimizzato per tablet */
   }
 
   .btn {
@@ -667,22 +942,23 @@ footer {
   }
 
   .feature-card {
-    padding: 36px 28px;
+    padding: 40px 30px;
     margin: 0;
-  }
-
-  .feature-icon {
-    font-size: 2.8rem;
-    margin-bottom: 18px;
   }
 
   .feature-card h3 {
     font-size: 1.4rem;
-    margin-bottom: 14px;
+    margin-bottom: 15px;
   }
 
   .feature-card p {
     font-size: 1rem;
+  }
+
+  /* Coming Soon responsive per tablet */
+  .feature-card.coming-soon::before {
+    font-size: 0.85rem;
+    padding: 10px 18px;
   }
 
   .business-section {
@@ -707,6 +983,11 @@ footer {
     bottom: 20px;
   }
 
+  .floating-button.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   .btn-floating {
     display: inline-block;
     padding: 15px 25px;
@@ -721,12 +1002,27 @@ footer {
     padding: 0 32px;
   }
 
+  .hero {
+    padding: 100px 0 60px; /* Più spazio per desktop */
+  }
+
   .hero h1 {
     font-size: 3.2rem;
+    margin-bottom: 24px; /* Più spazio */
   }
 
   .hero h2 {
     font-size: 1.35rem;
+    margin-bottom: 48px; /* Più breathing room */
+  }
+
+  .cta-headline {
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+  }
+
+  .cta-buttons {
+    gap: 32px; /* Più spazio tra i badge */
   }
 
   .description h2 {
@@ -763,6 +1059,12 @@ footer {
     margin-bottom: 15px;
   }
 
+  /* Coming Soon responsive per desktop */
+  .feature-card.coming-soon::before {
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
+
   .business-section h2 {
     font-size: 2.5rem;
   }
@@ -787,7 +1089,7 @@ footer {
   }
 
   .hero {
-    padding: 100px 0 60px;
+    padding: 80px 0 60px; /* Coordinato con nuovo header */
   }
 
   .floating-button {
@@ -795,11 +1097,20 @@ footer {
     right: 16px;
     left: 16px;
   }
+
+  .floating-button.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Touch-friendly improvements per mobile */
 @media (hover: none) and (pointer: coarse) {
   /* Stili specifici per dispositivi touch */
+  body {
+    background-attachment: scroll; /* Rimuove fixed su mobile per performance */
+  }
+
   .btn:hover {
     transform: none; /* Rimuovi hover su touch */
   }
@@ -845,11 +1156,205 @@ footer {
   }
 }
 
-/* Stili per dispositivi ad alta densità (Retina) */
+/* Ottimizzazioni per display ad alta densità (Retina) */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  /* Ottimizzazioni per schermi ad alta risoluzione */
-  .feature-icon {
+  .hero h1 {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero h2 {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-store img {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
+  }
+}
+
+/* Miglioramenti per schermi molto grandi (4K+) */
+@media (min-width: 2560px) {
+  .hero h1 {
+    font-size: 4.5rem;
+  }
+
+  .hero h2 {
+    font-size: 1.6rem;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+  }
+
+  .btn-store img {
+    width: 280px;
+  }
+}
+
+/* Ottimizzazioni specifiche per dispositivi molto piccoli (iPhone SE, etc.) */
+@media (max-width: 400px) {
+  .hero {
+    padding: 70px 0 30px; /* Ridotto ulteriormente per piccoli schermi */
+    min-height: 100vh;
+  }
+
+  .hero-content {
+    padding: 0 20px; /* Più padding laterale per breathing room */
+  }
+
+  .hero h1 {
+    font-size: 1.9rem; /* Ridotto significativamente per piccoli schermi */
+    margin-bottom: 20px; /* Più spazio sotto il titolo */
+    line-height: 1.2;
+    letter-spacing: -0.01em; /* Meno compressione */
+  }
+
+  .hero h2 {
+    font-size: 1rem; /* Ridotto per leggibilità */
+    margin-bottom: 36px; /* Più breathing room */
+    line-height: 1.5;
+    padding: 0 8px; /* Padding aggiuntivo */
+  }
+
+  .cta-headline {
+    font-size: 0.9rem; /* Ridotto */
+    margin-bottom: 20px; /* Più spazio */
+    padding: 0 8px;
+  }
+
+  .cta-buttons {
+    gap: 20px; /* Aumentato per più separazione */
+    margin-top: 28px; /* Ottimizzato per mobile */
+  }
+
+  .btn-store {
+    padding: 10px !important; /* Più padding per breathing room */
+    margin: 10px 0; /* Più spazio verticale */
+  }
+
+  .btn-store img {
+    width: 170px; /* Ridotto per dispositivi piccoli */
+    height: auto;
+  }
+
+  .btn-recommended {
+    transform: scale(1.05) translateY(-3px) !important; /* Meno drammatico */
+    box-shadow: 0 8px 25px rgba(193, 227, 60, 0.4) !important;
+  }
+
+  .btn-recommended::before {
+    top: -22px;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+  }
+
+  .btn-recommended:hover {
+    transform: scale(1.08) translateY(-4px) !important;
+  }
+
+  .btn-secondary-option {
+    transform: scale(0.92) translateY(1px);
+  }
+
+  /* Nascondi l'elemento decorativo su schermi molto piccoli */
+  .hero::after {
+    display: none;
+  }
+}
+
+/* Media query per dispositivi piccoli ma non minuscoli (401px - 767px) */
+@media (min-width: 401px) and (max-width: 767px) {
+  .hero {
+    padding: 60px 0 30px;
+  }
+
+  .hero-content {
+    padding: 0 18px;
+  }
+
+  .hero h1 {
+    font-size: 2.1rem; /* Compromesso tra impatto e leggibilità */
+    margin-bottom: 18px;
+    line-height: 1.15;
+  }
+
+  .hero h2 {
+    font-size: 1.05rem;
+    margin-bottom: 34px;
+    padding: 0 4px;
+  }
+
+  .cta-headline {
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+  }
+
+  .btn-store img {
+    width: 185px;
+  }
+}
+
+/* Responsive Header - Ultra-Minimal */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-menu {
+    gap: 16px;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+  }
+
+  /* Hero padding coordinato con header mobile */
+  .hero {
+    padding-top: 68px;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-container {
+    height: 60px;
+  }
+
+  .nav-menu {
+    gap: 24px;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
+  /* Hero padding coordinato con header desktop */
+  .hero {
+    padding-top: 72px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav-container {
+    padding: 0 32px;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+  }
+
+  .nav-menu {
+    gap: 32px;
+  }
+
+  .nav-link {
+    font-size: 0.95rem;
+    padding: 8px 16px;
   }
 }

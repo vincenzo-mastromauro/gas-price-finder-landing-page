@@ -4,8 +4,8 @@
     "description": "Trova i distributori di carburante più economici in Italia",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#2196F3",
+    "background_color": "#171717",
+    "theme_color": "#a8c132",
     "icons": [
         {
             "src": "/icon-192x192.png",
